@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bot nói Xin chào</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<main>
+
+<p class="kicker">Bài 1 · Python cho người viết JavaScript</p>
+<h1>Bot của bạn nói “Xin chào”</h1>
+<p class="subtitle">Dựng dự án Python bằng uv, đọc script đầu tiên qua lăng kính JS, và gửi tin nhắn Telegram từ code.</p>
+
+<div class="win">
+  <p><strong>Chiến thắng của bài này:</strong> điện thoại của bạn rung lên với tin nhắn <em>“Xin chào từ Python 🐍”</em> do chính script Python của bạn gửi. Khoảng 30–40 phút.</p>
+</div>
+
+<p>Bạn đã biết lập trình, nên bài này không dạy lại biến hay hàm. Nó chỉ làm ba việc: chỉ cho bạn “npm của Python”, chỉ ra những chỗ Python <em>khác</em> JS trong một script thật, và nối script đó với Telegram, bước đầu tiên của <a href="../MISSION.md">bot nhắc việc</a> bạn sẽ xây: mọi lời nhắc sau này đều là một lần gọi <code>sendMessage</code> như thế này.</p>
+
+<!-- ───────────────────────────────────────── -->
+<h2>1. uv là npm của Python</h2>
+
+<p><a href="https://docs.astral.sh/uv/guides/projects/">uv</a> quản lý cùng lúc phiên bản Python, môi trường ảo và thư viện, giống như nvm + npm gộp lại. Mapping gần như một-một:</p>
+
+<span class="sidenote">Máy bạn có sẵn Python 3.8 (qua pyenv), đã cũ và hết hỗ trợ. Đừng dùng nó. Dùng <code>--python 3.14</code>: bản này uv đã cài sẵn trên máy bạn.</span>
+
+<div class="table-wrap">
+<table>
+  <tr><th>Node / npm</th><th>Python / uv</th><th>Ghi chú</th></tr>
+  <tr><td><code>npm init</code></td><td><code>uv init</code></td><td>tạo dự án mới</td></tr>
+  <tr><td><code>package.json</code></td><td><code>pyproject.toml</code></td><td>khai báo dự án và dependency</td></tr>
+  <tr><td><code>npm install httpx</code></td><td><code>uv add httpx</code></td><td>thêm thư viện</td></tr>
+  <tr><td><code>node_modules/</code></td><td><code>.venv/</code></td><td>“môi trường ảo”, đã có trong .gitignore</td></tr>
+  <tr><td><code>package-lock.json</code></td><td><code>uv.lock</code></td><td>khoá phiên bản chính xác</td></tr>
+  <tr><td><code>.nvmrc</code></td><td><code>.python-version</code></td><td>phiên bản runtime</td></tr>
+  <tr><td><code>node index.js</code></td><td><code>uv run main.py</code></td><td>chạy bằng Python và thư viện của dự án</td></tr>
+</table>
+</div>
+
+<p>Điểm khác lớn nhất: <code>uv run</code> tự đảm bảo <code>.venv</code> khớp với lock file trước khi chạy (<a href="https://docs.astral.sh/uv/guides/projects/">uv docs</a>). Bạn không cần “activate” gì cả.</p>
+
+<!-- ───────────────────────────────────────── -->
+<h2>2. Đọc script: sáu chỗ khác JS</h2>
+
+<p>Đây là toàn bộ script bạn sẽ chạy. Đọc lướt trước, rồi xem bảng bên dưới.</p>
+
+<pre><code><span class="k">import</span> os
+
+<span class="k">import</span> httpx
+<span class="k">from</span> dotenv <span class="k">import</span> load_dotenv
+
+load_dotenv()  <span class="c"># đọc file .env vào os.environ (giống process.env)</span>
+TOKEN = os.environ[<span>"TELEGRAM_TOKEN"</span>]
+API = f"https://api.telegram.org/bot{TOKEN}"
+
+
+<span class="k">def</span> call(method: str, **params) -> dict:
+    <span class="c">"""Gọi một method của Bot API, trả về phần `result`."""</span>
+    r = httpx.post(f"{API}/{method}", json=params)
+    data = r.json()
+    <span class="k">if not</span> data["ok"]:
+        <span class="k">raise</span> RuntimeError(data["description"])
+    <span class="k">return</span> data["result"]
+
+
+<span class="k">def</span> main():
+    me = call("getMe")
+    print(f"Bot của bạn: @{me['username']}")
+
+    updates = call("getUpdates")
+    <span class="k">if not</span> updates:
+        print("Chưa có tin nhắn nào. Mở Telegram, nhắn /start cho bot, rồi chạy lại.")
+        <span class="k">return</span>
+
+    chat_id = updates[-1]["message"]["chat"]["id"]
+    call("sendMessage", chat_id=chat_id, text="Xin chào từ Python 🐍")
+    print(f"Đã gửi tin nhắn tới chat {chat_id}")
+
+
+<span class="k">if</span> __name__ == "__main__":
+    main()</code></pre>
+
+<div class="table-wrap">
+<table>
+  <tr><th>JavaScript</th><th>Python</th><th>Vì sao quan trọng</th></tr>
+  <tr><td><code>{ … }</code></td><td>thụt lề + <code>:</code></td><td>Thụt lề <em>là</em> cú pháp: “indentation is Python's way of grouping statements” (<a href="https://docs.python.org/3/tutorial/introduction.html#first-steps-towards-programming">Python Tutorial §3.2</a>). Dùng 4 dấu cách.</td></tr>
+  <tr><td><code>`bot${TOKEN}`</code></td><td><code>f"bot{TOKEN}"</code></td><td><a href="https://docs.python.org/3/tutorial/inputoutput.html#formatted-string-literals">f-string</a>: tiền tố <code>f</code>, ngoặc nhọn, không có <code>$</code>.</td></tr>
+  <tr><td><code>me.username</code></td><td><code>me['username']</code></td><td>JSON thành <a href="https://docs.python.org/3/tutorial/datastructures.html#dictionaries"><code>dict</code></a>. Dict <em>không</em> có cú pháp dấu chấm.</td></tr>
+  <tr><td><code>!x</code>, <code>throw</code></td><td><code>not x</code>, <code>raise</code></td><td>Toán tử logic là chữ: <code>and</code>, <code>or</code>, <code>not</code>. List rỗng <code>[]</code> là falsy, giống JS.</td></tr>
+  <tr><td><code>arr.at(-1)</code></td><td><code>updates[-1]</code></td><td>Index âm đếm từ cuối, áp dụng cho mọi list và string.</td></tr>
+  <tr><td><code>fn({chat_id, text})</code></td><td><code>fn(chat_id=…, text=…)</code></td><td><a href="https://docs.python.org/3/tutorial/controlflow.html#keyword-arguments">Keyword arguments</a>. <code>**params</code> gom chúng thành một dict, giống <code>...rest</code> nhưng cho tham số có tên.</td></tr>
+</table>
+</div>
+
+<p>Hai thứ còn lại: <code>method: str</code> và <code>-&gt; dict</code> là <em>type hint</em>, kiểu TypeScript nhưng Python không kiểm tra lúc chạy. Còn <code>if __name__ == "__main__":</code> tương đương <code>require.main === module</code>: chỉ chạy <code>main()</code> khi file được chạy trực tiếp, không chạy khi bị import.</p>
+
+<span class="sidenote">Bot API đơn giản chỉ là HTTP: <code>https://api.telegram.org/bot&lt;token&gt;/TÊN_METHOD</code>, trả về JSON có <code>ok</code> và <code>result</code> (<a href="https://core.telegram.org/bots/api#making-requests">Bot API docs</a>). Hàm <code>call</code> ở trên chỉ bọc đúng quy ước đó.</span>
+
+<!-- ───────────────────────────────────────── -->
+<h2>3. Làm: gửi tin nhắn đầu tiên</h2>
+
+<ol class="steps" data-key="lesson-0001">
+  <li><strong>Tạo bot.</strong> Trong Telegram, mở <a href="https://t.me/botfather">@BotFather</a>, gửi <code>/newbot</code>, đặt tên và username (phải kết thúc bằng <code>bot</code>). BotFather trả về một <em>token</em>. Telegram dặn: “treat it like a password” (<a href="https://core.telegram.org/bots/tutorial">Telegram tutorial</a>). Đừng dán token vào chat với tôi.</li>
+  <li><strong>Tạo dự án</strong> trong thư mục <code>bot/</code> của repo <a href="https://github.com/quannguyen-agilityio/python-todo-bot">python-todo-bot</a>:
+<pre><code>cd ~/Documents/Training/python-todo-bot
+uv init bot --app --no-package --python 3.14
+cd bot
+uv add httpx python-dotenv</code></pre>
+  <code>httpx</code> đóng vai trò của <code>fetch</code>/axios (<a href="https://www.python-httpx.org/quickstart/">HTTPX quickstart</a>). <code>python-dotenv</code> giống gói <code>dotenv</code> của Node.</li>
+  <li><strong>Cất token</strong> vào file <code>bot/.env</code>. File <code>.gitignore</code> của repo đã chặn <code>.env</code>, nhưng hãy chạy <code>git status</code> để chắc nó không hiện ra. Repo là public:
+<pre><code>TELEGRAM_TOKEN=dán-token-của-bạn-vào-đây</code></pre></li>
+  <li><strong>Viết code.</strong> Thay toàn bộ nội dung <code>main.py</code> bằng script ở mục 2 (nút <em>copy</em> ở góc khối code). Hãy thử gõ lại bằng tay ít nhất hàm <code>call</code>: ngón tay nhớ thụt lề nhanh hơn mắt.</li>
+  <li><strong>Chạy lần 1:</strong> <code>uv run main.py</code>. Bạn sẽ thấy tên bot và lời nhắc “Chưa có tin nhắn nào”. Nếu thấy <code>Unauthorized</code>, token trong <code>.env</code> bị sai.</li>
+  <li><strong>Nhắn <code>/start</code></strong> cho bot của bạn trên Telegram, rồi <strong>chạy lại</strong> <code>uv run main.py</code>. Kiểm tra điện thoại. 🎉</li>
+</ol>
+
+<details class="recall">
+  <summary>Vì sao phải nhắn bot trước? (tự đoán trước khi mở)</summary>
+  <p>Bot không được phép nhắn trước cho người chưa từng nhắn nó. Và <code>getUpdates</code> chỉ trả về tin nhắn mà bot <em>đã nhận</em>, nên đó là cách bot biết <code>chat_id</code> của bạn. Sau này, để nhắc việc đúng giờ, bot sẽ lưu <code>chat_id</code> của bạn cùng với mỗi task và gửi bất cứ lúc nào.</p>
+</details>
+
+<!-- ───────────────────────────────────────── -->
+<h2>4. Nhớ lại (đừng cuộn lên)</h2>
+
+<p class="quiz-score" data-quiz-score></p>
+
+<div class="quiz" data-answer="2">
+  <p class="q">1. Lệnh uv tương đương <code>npm install httpx</code> là gì?</p>
+  <ol>
+    <li><button class="opt">uv get httpx</button></li>
+    <li><button class="opt">uv add httpx</button></li>
+    <li><button class="opt">uv put httpx</button></li>
+    <li><button class="opt">uv new httpx</button></li>
+  </ol>
+  <p class="explain"><code>uv add</code> vừa ghi vào <code>pyproject.toml</code> vừa cài vào <code>.venv</code> và cập nhật <code>uv.lock</code>.</p>
+</div>
+
+<div class="quiz" data-answer="4">
+  <p class="q">2. Python dùng gì để biết dòng nào thuộc thân hàm?</p>
+  <ol>
+    <li><button class="opt">dấu ngoặc nhọn</button></li>
+    <li><button class="opt">từ khoá end</button></li>
+    <li><button class="opt">dấu chấm phẩy</button></li>
+    <li><button class="opt">thụt đầu dòng</button></li>
+  </ol>
+  <p class="explain">Thụt lề là cú pháp. Trộn tab với dấu cách hoặc lệch một dấu cách đều gây <code>IndentationError</code>.</p>
+</div>
+
+<div class="quiz" data-answer="1">
+  <p class="q">3. <code>me = call("getMe")</code> trả về một dict. Lấy username thế nào?</p>
+  <ol>
+    <li><button class="opt">me['username']</button></li>
+    <li><button class="opt">me('username')</button></li>
+    <li><button class="opt">me{'username'}</button></li>
+    <li><button class="opt">me&lt;'username'&gt;</button></li>
+  </ol>
+  <p class="explain">Dict dùng ngoặc vuông. <code>me.username</code> sẽ báo <code>AttributeError</code>.</p>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p class="q">4. Với <code>h = 8</code> và <code>m = 5</code>, <code>f"{h:02}:{m:02}"</code> in ra gì?</p>
+  <ol>
+    <li><button class="opt">80:50</button></li>
+    <li><button class="opt">08:50</button></li>
+    <li><button class="opt">08:05</button></li>
+    <li><button class="opt">80:05</button></li>
+  </ol>
+  <p class="explain"><code>:02</code> là <a href="https://docs.python.org/3/library/string.html#format-specification-mini-language">format spec</a>: rộng 2 ký tự, thêm số 0 bên trái. Bạn sẽ cần nó để in giờ nhắc ở thử thách bên dưới.</p>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p class="q">5. Khối <code>if __name__ == "__main__":</code> có tác dụng gì?</p>
+  <ol>
+    <li><button class="opt">chỉ chạy khi file bị import</button></li>
+    <li><button class="opt">chỉ chạy khi gọi trực tiếp</button></li>
+    <li><button class="opt">luôn chạy trước mọi lệnh import</button></li>
+    <li><button class="opt">chạy lại khi file thay đổi</button></li>
+  </ol>
+  <p class="explain">Giống <code>require.main === module</code>. Nó giúp sau này bạn import <code>call</code> từ file khác mà không vô tình gửi tin nhắn.</p>
+</div>
+
+<div class="quiz" data-answer="4">
+  <p class="q">6. Trong <code>call("sendMessage", chat_id=1, text="hi")</code>, biến <code>params</code> là kiểu gì?</p>
+  <ol>
+    <li><button class="opt">một list</button></li>
+    <li><button class="opt">một tuple</button></li>
+    <li><button class="opt">một set</button></li>
+    <li><button class="opt">một dict</button></li>
+  </ol>
+  <p class="explain"><code>**params</code> gom keyword arguments thành <code>{'chat_id': 1, 'text': 'hi'}</code>, nên truyền thẳng vào <code>json=</code> được. (<code>*args</code> với một dấu sao mới là tuple.)</p>
+</div>
+
+<!-- ───────────────────────────────────────── -->
+<h2>5. Thử thách: gửi danh sách việc</h2>
+
+<p>Sửa <code>main()</code> để bot gửi danh sách task hôm nay thay vì “Xin chào”. Đây là bản nháp của lệnh <code>/list</code> sau này. Bắt đầu với dữ liệu này:</p>
+
+<pre><code>tasks = [
+    {"text": "Uống thuốc", "hour": 8, "minute": 0, "repeat": "hằng ngày"},
+    {"text": "Gọi điện cho mẹ", "hour": 19, "minute": 30, "repeat": None},
+    {"text": "Tập thể dục", "hour": 6, "minute": 5, "repeat": "T2, T4, T6"},
+]</code></pre>
+
+<p>Tin nhắn mong muốn, mỗi task một dòng:</p>
+<pre><code>⏰ 08:00 Uống thuốc (🔁 hằng ngày)
+⏰ 19:30 Gọi điện cho mẹ (một lần)
+⏰ 06:05 Tập thể dục (🔁 T2, T4, T6)</code></pre>
+
+<details class="recall">
+  <summary>Gợi ý 1: vòng lặp và nối chuỗi</summary>
+  <p><code>for t in tasks:</code> giống <code>for (const t of tasks)</code>. Gom các dòng vào một list bằng <code>lines.append(...)</code> (giống <code>push</code>), rồi nối: <code>"\n".join(lines)</code>. Để ý thứ tự đảo ngược so với JS <code>lines.join("\n")</code>.</p>
+</details>
+<details class="recall">
+  <summary>Gợi ý 2: “🔁 hằng ngày” hay “một lần”</summary>
+  <p><code>None</code> là <code>null</code> của Python và là falsy. Toán tử ba ngôi đọc như câu nói: <code>a if điều_kiện else b</code>. Bên trong f-string, dùng nháy đơn cho key: <code>f"{t['text']}"</code>.</p>
+</details>
+<details class="recall">
+  <summary>Lời giải (chỉ mở sau khi đã chạy thử)</summary>
+<pre><code>lines = []
+for t in tasks:
+    repeat = f"🔁 {t['repeat']}" if t["repeat"] else "một lần"
+    lines.append(f"⏰ {t['hour']:02}:{t['minute']:02} {t['text']} ({repeat})")
+
+call("sendMessage", chat_id=chat_id, text="\n".join(lines))</code></pre>
+</details>
+
+<p>Khi làm xong, báo cho tôi. Tôi sẽ ghi nhận vào hồ sơ học tập, và bài sau sẽ biến script “chạy một lần” này thành bot <em>luôn lắng nghe</em>, nhận lệnh <code>/add</code>. Nhớ commit code trong <code>bot/</code> (trừ <code>.env</code>) và push lên repo.</p>
+
+<!-- ───────────────────────────────────────── -->
+<div class="box">
+  <p><span class="label">Đọc thêm (nguồn chính)</span></p>
+  <p><a href="https://docs.python.org/3/tutorial/introduction.html">The Python Tutorial, chương 3 “An Informal Introduction”</a> và <a href="https://docs.python.org/3/tutorial/controlflow.html">chương 4 “More Control Flow Tools”</a>. Đây là tài liệu chính thức, viết cho người đã biết lập trình. Đọc lướt được trong khoảng 30 phút.</p>
+</div>
+
+<div class="box">
+  <p><span class="label">Hỏi giáo viên</span></p>
+  <p>Có chỗ nào chưa rõ, bị lỗi, hay muốn hỏi “trong JS mình làm X, Python làm sao?” thì cứ hỏi tôi ngay trong cuộc trò chuyện này. Dán thông báo lỗi (nhớ <em>che token</em>) và tôi sẽ giúp bạn đọc nó.</p>
+</div>
+
+<nav class="course">
+  <span>Tra cứu: <a href="../reference/js-to-python.html">JS → Python</a> · <a href="../reference/glossary.html">Thuật ngữ</a></span>
+  <span>Bài 2: bot luôn lắng nghe (sắp có)</span>
+</nav>
+
+</main>
+<script src="../assets/lesson.js"></script>
+</body>
+</html>

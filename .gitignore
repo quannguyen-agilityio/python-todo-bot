@@ -1,0 +1,13 @@
+# Secrets
+.env
+.env.*
+
+# Python / uv
+.venv/
+__pycache__/
+*.pyc
+
+# Bot data (task thật của bạn)
+*.db
+*.sqlite3
+tasks.json
