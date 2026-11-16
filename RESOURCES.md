@@ -3,32 +3,32 @@
 ## Knowledge
 
 - [Docs: The Python Tutorial (python.org)](https://docs.python.org/3/tutorial/)
-  Tài liệu chính thức, viết cho người đã biết lập trình. Use for: cú pháp, kiểu dữ liệu, list/dict, hàm, module — nguồn chính cho mọi bài cú pháp.
+  Official tutorial, written for people who already program. Use for: syntax, data types, lists/dicts, functions, modules — the main source for every syntax lesson.
 - [Docs: uv — Working on projects (Astral)](https://docs.astral.sh/uv/guides/projects/)
-  Trình quản lý dự án/Python hiện đại, vai trò như npm. Use for: `uv init`, `uv add`, `uv run`, phiên bản Python.
+  Modern Python project/package manager, plays the role of npm. Use for: `uv init`, `uv add`, `uv run`, Python versions.
 - [Docs: Telegram Bot API (core.telegram.org)](https://core.telegram.org/bots/api)
-  Đặc tả HTTP chính thức của bot. Use for: tên method, tham số, cấu trúc `{ok, result}`.
+  Official HTTP spec for bots. Use for: method names, parameters, the `{ok, result}` shape.
 - [Guide: "From BotFather to 'Hello World'" (Telegram)](https://core.telegram.org/bots/tutorial)
-  Hướng dẫn chính thức tạo bot và lấy token. Use for: BotFather, bảo mật token.
+  Official guide to creating a bot and getting a token. Use for: BotFather, token security.
 - [Docs: HTTPX Quickstart](https://www.python-httpx.org/quickstart/)
-  Thư viện HTTP (giống fetch/axios), hỗ trợ cả sync và async. Use for: gọi API thô trước khi dùng framework.
+  HTTP library (like fetch/axios), supports both sync and async. Use for: calling the raw API before using a framework.
 - [Docs: python-telegram-bot](https://docs.python-telegram-bot.org/)
-  Framework bot Telegram phổ biến nhất cho Python (async, `Application.builder()`), bản hiện tại v22.x. Use for: handler, lệnh, chạy bot liên tục (từ bài 2).
+  The most popular Telegram bot framework for Python (async, `Application.builder()`), currently v22.x. Use for: handlers, commands, running the bot continuously (from lesson 2).
 - [Docs: python-telegram-bot JobQueue](https://docs.python-telegram-bot.org/en/stable/telegram.ext.jobqueue.html)
-  Lập lịch bằng `run_once`, `run_daily(time, days=…)`, `run_repeating`; cần extra `python-telegram-bot[job-queue]`; mặc định UTC. Use for: nhắc việc đúng giờ và nhắc lại.
+  Scheduling with `run_once`, `run_daily(time, days=…)`, `run_repeating`; needs the `python-telegram-bot[job-queue]` extra; defaults to UTC. Use for: on-time and repeating reminders.
 - [Docs: datetime & zoneinfo (Python stdlib)](https://docs.python.org/3/library/datetime.html)
-  Thời gian, ngày, múi giờ (`ZoneInfo("Asia/Ho_Chi_Minh")`). Use for: parse "20:00", tính giờ nhắc tiếp theo.
+  Times, dates, timezones (`ZoneInfo("Asia/Ho_Chi_Minh")`). Use for: parsing "20:00", computing the next reminder time.
 
 ## Wisdom (Communities)
 
 - [r/learnpython](https://www.reddit.com/r/learnpython/)
-  Subreddit lớn, được kiểm duyệt, thân thiện với người mới. Use for: hỏi cách viết "Pythonic", review code ngắn.
+  Large, moderated, beginner-friendly subreddit. Use for: asking how to write "Pythonic" code, short code reviews.
 - [Python Discord](https://www.pythondiscord.com/)
-  Cộng đồng Python lớn nhất trên Discord, có kênh help. Use for: hỏi nhanh khi kẹt.
+  The largest Python community on Discord, with help channels. Use for: quick questions when stuck.
 - [python-telegram-bot group (Telegram)](https://t.me/pythontelegrambotgroup)
-  Nhóm chính thức của thư viện. Use for: câu hỏi riêng về bot Telegram.
+  The library's official group. Use for: Telegram-bot-specific questions.
 
 ## Gaps
 
-- Chưa có nguồn tiếng Việt đáng tin cậy được xác minh.
-- Chưa chọn nguồn cho lưu trữ (sqlite3) và deploy (VPS/systemd/Docker) — tìm khi tới bài đó.
+- No verified, trustworthy Vietnamese-language source yet.
+- No sources chosen yet for storage (sqlite3) and deployment (VPS/systemd/Docker) — find them when those lessons come up.

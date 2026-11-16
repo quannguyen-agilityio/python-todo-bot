@@ -1,23 +1,23 @@
 # Mission: Python
 
 ## Why
-Xây dựng một bot Telegram nhắc việc (todo) bằng Python cho bản thân: tạo task bằng một câu lệnh đơn giản gồm nội dung, giờ nhắc và lịch nhắc lại, rồi bot tự nhắn đúng giờ.
+Build a personal Telegram todo reminder bot in Python: create a task with one simple command holding the text, the reminder time and the repeat schedule, and the bot messages me at the right time.
 
 ## Success looks like
-- Tự viết từ đầu một script Python chạy được, quản lý dự án bằng `uv` (giống npm)
-- Bot hiểu lệnh tạo task, ví dụ `/add Uống thuốc | 20:00 | hằng ngày`, và báo lỗi rõ ràng khi gõ sai
-- Bot nhắn nhắc việc đúng giờ (theo giờ Việt Nam), kể cả nhắc lại hằng ngày hoặc vào các thứ trong tuần
-- Xem, đánh dấu xong, xoá task: `/list`, `/done`, `/del`
-- Task được lưu lại, bot khởi động lại không mất lịch nhắc
-- Bot chạy liên tục trên server, không cần mở máy cá nhân
-- Code nằm trong repo GitHub `quannguyen-agilityio/python-todo-bot`
+- Write a working Python script from scratch, with the project managed by `uv` (like npm)
+- The bot understands the add command, e.g. `/add Uống thuốc | 20:00 | hằng ngày`, and reports clear errors on bad input
+- The bot sends reminders on time (Vietnam time), including daily repeats and specific weekdays
+- View, complete and delete tasks: `/list`, `/done`, `/del`
+- Tasks are persisted, so restarting the bot does not lose the schedule
+- The bot runs continuously on a server, without needing my own machine on
+- Code lives in the GitHub repo `quannguyen-agilityio/python-todo-bot`
 
 ## Constraints
-- Đã thành thạo JavaScript/TypeScript/Node.js → dạy Python bằng cách so sánh với JS, bỏ qua kiến thức lập trình cơ bản
-- Học cường độ cao: khoảng 1 giờ trở lên hầu hết các ngày
-- Bài học viết bằng tiếng Việt (code và thuật ngữ kỹ thuật giữ tiếng Anh)
+- Already fluent in JavaScript/TypeScript/Node.js → teach Python by comparing with JS, skip general programming basics
+- High intensity: about 1 hour or more on most days
+- Lessons are written in Vietnamese (code and technical terms stay in English)
 
 ## Out of scope
-- Bot cho khách hàng / shop, Zalo OA, Facebook Messenger
-- Hiểu ngôn ngữ tự nhiên bằng AI (Claude) — có thể thêm sau khi bot lệnh chạy ổn
-- Data science, frontend web, GUI desktop
+- Customer/shop bots, Zalo OA, Facebook Messenger
+- Natural-language understanding with AI (Claude) — can be added once the command bot is stable
+- Data science, web frontend, desktop GUI

@@ -1,7 +1,7 @@
-# Đã thành thạo JavaScript/TypeScript/Node.js
+# Already fluent in JavaScript/TypeScript/Node.js
 
-Người học tự nhận thành thạo JS/TS và Node.js, mới bắt đầu với Python. Không cần dạy lại khái niệm lập trình chung (biến, hàm, vòng lặp, async, HTTP, JSON, npm) — dạy Python như "bản dịch" từ JS, tập trung vào khác biệt và bẫy.
+The learner reports being fluent in JS/TS and Node.js and is new to Python. No need to re-teach general programming concepts (variables, functions, loops, async, HTTP, JSON, npm) — teach Python as a "translation" from JS, focusing on differences and pitfalls.
 
-**Evidence:** Tự khai báo lúc lập mission (2026-11-16). Chưa kiểm chứng bằng bài tập.
+**Evidence:** Self-reported when setting the mission (2026-11-16). Not yet verified through exercises.
 
-**Implications:** Có thể giới thiệu `uv` qua so sánh với npm, `dict` qua object, `async/await` sớm (python-telegram-bot là async).
+**Implications:** Can introduce `uv` by comparison with npm, `dict` via objects, and `async/await` early (python-telegram-bot is async).

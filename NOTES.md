@@ -1,12 +1,12 @@
 # Notes
 
-- Ngôn ngữ bài học: tiếng Việt; code, tên hàm, thuật ngữ kỹ thuật giữ tiếng Anh.
-- Nền tảng: thành thạo JS/TS/Node.js. Luôn dùng bảng so sánh "JS → Python".
-- Không giải thích khái niệm lập trình chung (biến, vòng lặp, hàm, async là gì). Tập trung vào *khác biệt* và bẫy của Python.
-- Cường độ cao (~1h+/ngày) → đi nhanh được, nhưng mỗi bài vẫn chỉ một "chiến thắng" cụ thể.
-- Ví dụ trong bài: luôn dùng task/nhắc việc (nội dung, giờ nhắc, lặp lại) — đúng với bot đang xây.
-- Token bot Telegram là bí mật: luôn để trong `.env` (đã có trong `.gitignore`), không dán vào chat, không commit.
-- Repo là public: tuyệt đối không commit `.env`, `chat_id` cá nhân hay dữ liệu task thật.
-- Code bot nằm trong `bot/` (dự án uv riêng); mỗi bài làm tiếp trên cùng code đó.
-- Múi giờ: Asia/Ho_Chi_Minh. JobQueue của python-telegram-bot mặc định UTC — phải nhắc rõ khi tới bài lập lịch.
-- Lộ trình dự kiến: (1) gửi tin nhắn bằng HTTP thô → (2) bot luôn lắng nghe với python-telegram-bot, lệnh /start /add → (3) parse lệnh: chuỗi, split, datetime → (4) JobQueue: run_once/run_daily → (5) lưu task (JSON → SQLite) → (6) /list /done /del → (7) deploy.
+- Lesson language: Vietnamese; code, function names and technical terms stay in English.
+- Background: fluent in JS/TS/Node.js. Always use a "JS → Python" comparison table.
+- Don't explain general programming concepts (what variables, loops, functions, async are). Focus on Python's *differences* and pitfalls.
+- High intensity (~1h+/day) → can move fast, but each lesson still delivers one concrete "win".
+- Examples in lessons always use tasks/reminders (text, time, repeat) — matching the bot being built.
+- The Telegram bot token is a secret: always keep it in `.env` (already in `.gitignore`), never paste it in chat, never commit it.
+- The repo is public: never commit `.env`, a personal `chat_id` or real task data.
+- Bot code lives in `bot/` (its own uv project); each lesson continues on the same code.
+- Timezone: Asia/Ho_Chi_Minh. python-telegram-bot's JobQueue defaults to UTC — call this out in the scheduling lesson.
+- Planned path: (1) send a message with raw HTTP → (2) an always-listening bot with python-telegram-bot, /start /add → (3) parse commands: strings, split, datetime → (4) JobQueue: run_once/run_daily → (5) persist tasks (JSON → SQLite) → (6) /list /done /del → (7) deploy.

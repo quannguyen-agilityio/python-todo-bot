@@ -1,5 +1,5 @@
-# Mission đổi sang bot Telegram nhắc việc (todo)
+# Mission changed to a Telegram todo reminder bot
 
-Ngày 2026-11-16, người học đổi đầu ra của khoá học: thay vì bot trả lời khách cho shop, giờ là bot nhắc việc cá nhân — tạo task bằng lệnh đơn giản (nội dung, giờ nhắc, lịch nhắc lại). Xem [[MISSION.md]].
+On 2026-11-16 the learner changed the course outcome: instead of a customer-reply bot for a shop, it is now a personal reminder bot — create tasks with a simple command (text, reminder time, repeat schedule). See [[MISSION.md]].
 
-**Implications:** Bài 1 vẫn giữ (gửi tin nhắn qua Bot API là nền tảng chung), nhưng ví dụ chuyển sang task. Các bài tiếp theo ưu tiên: xử lý chuỗi/parse lệnh, `datetime` + múi giờ, JobQueue của python-telegram-bot, lưu trữ bền vững. Claude API bị đẩy ra ngoài phạm vi. Code sống trong repo public `quannguyen-agilityio/python-todo-bot`, thư mục `bot/`.
+**Implications:** Lesson 1 stays (sending a message through the Bot API is common ground), but examples switch to tasks. Next lessons prioritise: string handling/command parsing, `datetime` + timezones, python-telegram-bot's JobQueue, persistent storage. The Claude API is out of scope. Code lives in the public repo `quannguyen-agilityio/python-todo-bot`, in the `bot/` folder.

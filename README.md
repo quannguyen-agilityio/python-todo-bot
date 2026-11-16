@@ -1,26 +1,27 @@
 # python-todo-bot
 
-Học Python (từ nền tảng JavaScript/Node.js) bằng cách xây một **bot Telegram nhắc việc**: tạo task bằng lệnh đơn giản gồm nội dung, giờ nhắc và lịch nhắc lại.
+Learning Python (coming from JavaScript/Node.js) by building a **Telegram todo reminder bot**: create a task with one simple command that holds the text, the reminder time and the repeat schedule.
 
 ```text
 /add Uống thuốc | 20:00 | hằng ngày
 ```
 
-## Cấu trúc
+## Structure
 
-| Đường dẫn | Nội dung |
+| Path | Contents |
 |---|---|
-| `lessons/` | Các bài học (HTML, mở bằng trình duyệt) |
-| `reference/` | Trang tra cứu: JS → Python, thuật ngữ |
-| `assets/` | Style và quiz dùng chung cho các bài |
-| `bot/` | Code bot, viết dần qua từng bài (tạo ở bài 1) |
-| `MISSION.md` | Mục tiêu của khoá học |
-| `RESOURCES.md` | Nguồn tài liệu và cộng đồng |
-| `learning-records/` | Những gì đã học được, dùng để chọn bài tiếp theo |
-| `NOTES.md` | Ghi chú cách dạy |
+| `training-plan.html` | Full training plan: Think Python chapters, idiomatic Python, typing, testing, with quizzes and step-by-step bot practice (VN/EN) |
+| `lessons/` | Lessons (HTML, open in a browser) |
+| `reference/` | Reference pages: JS → Python, glossary |
+| `assets/` | Shared styles and quiz script for the lessons |
+| `bot/` | Bot code, built up lesson by lesson (created in lesson 1) |
+| `MISSION.md` | Course goals |
+| `RESOURCES.md` | Docs and communities |
+| `learning-records/` | What has been learned so far, used to pick the next lesson |
+| `NOTES.md` | Teaching notes |
 
-## Bắt đầu
+## Getting started
 
-Mở [lessons/0001-bot-noi-xin-chao.html](lessons/0001-bot-noi-xin-chao.html) trong trình duyệt.
+Open [training-plan.html](training-plan.html) in a browser, or start with [lessons/0001-bot-noi-xin-chao.html](lessons/0001-bot-noi-xin-chao.html).
 
-> Token bot nằm trong `bot/.env` và **không bao giờ** được commit (đã chặn trong `.gitignore`).
+> The bot token lives in `bot/.env` and is **never** committed (blocked in `.gitignore`).
