@@ -15,7 +15,7 @@ Build a personal Telegram todo reminder bot in Python: create a task with one si
 ## Constraints
 - Already fluent in JavaScript/TypeScript/Node.js → teach Python by comparing with JS, skip general programming basics
 - High intensity: about 1 hour or more on most days
-- Lessons are written in Vietnamese (code and technical terms stay in English)
+- The training plan is bilingual VN/EN (code and technical terms stay in English)
 
 ## Out of scope
 - Customer/shop bots, Zalo OA, Facebook Messenger

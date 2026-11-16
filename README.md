@@ -10,18 +10,13 @@ Learning Python (coming from JavaScript/Node.js) by building a **Telegram todo r
 
 | Path | Contents |
 |---|---|
-| `training-plan.html` | Full training plan: Think Python chapters, idiomatic Python, typing, testing, with quizzes and step-by-step bot practice (VN/EN) |
-| `lessons/` | Lessons (HTML, open in a browser) |
-| `reference/` | Reference pages: JS → Python, glossary |
-| `assets/` | Shared styles and quiz script for the lessons |
-| `bot/` | Bot code, built up lesson by lesson (created in lesson 1) |
-| `MISSION.md` | Course goals |
+| `training-plan.html` | The full training plan: Think Python chapters, idiomatic Python, typing and testing, with quizzes, multiple-choice exercises and step-by-step bot practice (VN/EN) |
+| `bot/` | Bot code, built up step by step while following the plan |
+| `MISSION.md` | What the bot must do |
 | `RESOURCES.md` | Docs and communities |
-| `learning-records/` | What has been learned so far, used to pick the next lesson |
-| `NOTES.md` | Teaching notes |
 
 ## Getting started
 
-Open [training-plan.html](training-plan.html) in a browser, or start with [lessons/0001-bot-noi-xin-chao.html](lessons/0001-bot-noi-xin-chao.html).
+Open [training-plan.html](training-plan.html) in a browser and start from the **Setup** section.
 
-> The bot token lives in `bot/.env` and is **never** committed (blocked in `.gitignore`).
+> The bot token lives in `bot/.env` and is **never** committed (blocked in `.gitignore`). The repo is public: never commit `.env`, your `chat_id` or real task data.
